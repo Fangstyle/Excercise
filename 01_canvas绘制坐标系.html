@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas坐标系</title>
+</head>
+<body>
+<div class="container">
+    <canvas id="canvas"></canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    canvas.width = 600;
+    canvas.height = 600;
+    canvas.style.border = "1px solid grey"
+    var x0 = 100;
+    var y0 = 400;
+    var maxHeight = 300 ;
+    var arrowWidth = 5;
+    context.beginPath();
+    context.strokeStyle = 'blue';
+    context.moveTo(x0,y0);
+    context.lineTo(500,y0);
+    context.moveTo(500,y0);
+    context.lineTo(500-arrowWidth,y0+arrowWidth);
+    context.moveTo(500,y0);
+    context.lineTo(500-arrowWidth,y0-arrowWidth);
+    context.stroke();
+
+    context.beginPath();
+    context.strokeStyle = 'blue';
+    context.moveTo(x0,y0);
+    context.lineTo(x0,y0-350);
+    context.moveTo(x0,y0-350);
+    context.lineTo(x0-arrowWidth,y0-350+arrowWidth);
+    context.moveTo(x0,y0-350);
+    context.lineTo(x0+arrowWidth,y0-350+arrowWidth);
+    context.stroke();
+
+    var data = [ .4, .5 , .8, .7 ];
+    var width = 400 /(data.length+1);
+    context.beginPath();
+    context.strokeStyle = "bule";
+    for(var i = 0 ; i < data .length ; i++){
+        context.lineTo(x0+(i+1)*width,y0-data[i]*maxHeight);
+    }
+    context.stroke();
+</script>
+</body>
+</html>

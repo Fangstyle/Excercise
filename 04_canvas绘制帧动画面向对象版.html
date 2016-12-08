@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>帧动画面向对象</title>
+</head>
+<body>
+<canvas id="canvas">
+    版本不支持canvas
+</canvas>
+<script>
+    function Person(data) {
+        this._init(data);
+    }
+    Person.prototype = {
+            _init:function (data) {
+                this.x = data.x ===0 ? 0: data.x||100;
+                this.y = data.y ===0 ? 0: data.y||100;
+  /*裁剪宽度*/  this.imgSplitW = data.imgSplitW === 0 ? 0 : data.imgSplitW || 256;
+   /*裁剪高度*/ this.imgSplitH = data.imgSplitH === 0 ? 0 : data.imgSplitH || 256;
+                this.imgW = data.imgW === 0 ? 0 : data.imgW || 256;
+                this.imgH = data.imgH === 0 ? 0 : data.imgH || 256;
+                this.speed =data.speed || 100;
+                this._dirIndex =0;// 方向的索引
+                this._spriteImg = null; //精灵图dom对象
+                this.spriteImgSrc = data.spriteImgSrc;
+                this.canvasContext = data.canvasContext;
+            },
+            render:function () {
+                this._spriteImg = new Image();
+                this._spriteImg.src = this.spriteImgSrc;
+                var self = this;
+                var frameIndex =0;
+                this._spriteImg.onload = function () {
+                    setInterval(function () {
+                        self.canvasContext.clearRect(self.x,self.y,self.imgSplitW,self.imgH);
+                        var sx = frameIndex * self.imgSplitW;
+                        var sy = self._dirIndex*self.imgSplitH;
+                        self.canvasContext.drawImage(self._spriteImg,sx,sy,self.imgSplitW,self.imgSplitH,self.x,self.y,self.imgW,self.imgH);
+                        frameIndex++;
+                        frameIndex%=8;
+                    },self.speed);
+                }
+            },
+            direction:function (dir) {
+                switch (dir){
+                    case "up":
+                        this._dirIndex = 2;
+                        break;
+                    case "down":
+                        this._dirIndex = 6;
+                        break;
+                    case "left":
+                        this._dirIndex = 0;
+                        break;
+                    case "right":
+                        this._dirIndex = 4;
+                        break;
+                }
+            }
+    }
+    
+    window.onload = function () {
+        var convas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        convas.width = 900;
+        canvas.height = 600;
+        canvas.style.border = "1px solid #888";
+        var girl = new Person({
+            x : 200 ,
+            y : 200 ,
+            imgSplitW:256,
+            imgSplitH:256,
+            imgW:256,
+            imgH:256,
+            speed:200,
+            spriteImgSrc:"images/1.png",
+            canvasContext:context,
+        });
+        girl.render();
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            switch (e.keyCode){
+                case 38 ://↑
+                    girl.direction("up");
+                    break;
+                case 40 ://↓
+                    girl.direction("down");
+                    break
+                case 37 ://←
+                    girl.direction("left");
+                    break;
+                case 39: //→
+                    girl.direction("right");
+            }
+        }
+    }
+</script>
+</body>
+</html>

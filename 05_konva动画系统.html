@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>konva动画系统</title>
+    <script src="lib/konva/konva.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    window.onload = function () {
+        var stage = new Konva.Stage({
+            container : "container",
+            width : window.innerWidth,
+            height : window.innerWidth,
+        });
+        var layer = new Konva.Layer();
+        stage.add(layer);
+        /*矩形*/
+        var rect = new Konva.Rect({
+            x : 10 ,
+            y : 10 ,
+            height : 80 ,
+            width : 30 ,
+            fill : "#f60" ,
+        });
+        layer.add(rect);
+        layer.draw();
+
+        /*to动画*/
+        rect.to({
+            x : 100 ,
+            y : 100 ,
+            duration : 3 ,
+            opacity : 0,
+        })
+        /*animation动画*/
+
+        var group = new Konva.Group({
+            x : 300 ,
+            y : 300 ,
+        });
+        /*动画矩形*/
+        var animitionRect = new Konva.Rect({
+            x : 0 ,
+            y : 0 ,
+            width : 20 ,
+            height : 40 ,
+            fill : "#26F6FF" ,
+            stroke : "#00D0D9",
+            strokeWidth : 2,
+            offset : {
+                x : 10, //X轴 负方向
+                y : 20, //y 轴 负方向
+            },
+            draggable : true ,
+
+        });
+        /*圆环*/
+        var ring = new Konva.Ring({
+            x: 0 , //圆心x
+            y : 0 , //圆心y
+            innerRadius : 40 ,
+            outerRadius : 70 ,
+            fill : "teal",
+            stroke : 'red',
+            strokeWidth :3
+        });
+
+        var star = new Konva.Star({
+            x : 200 ,
+            y : 200 ,
+            innerRadius : 40 ,
+            outerRadius : 70 ,
+            fill: "teal",
+            numPoints: 5,	//角数
+        })
+        group.add(ring);
+        group.add(star);
+        group.add(animitionRect);
+        layer.add(group);
+
+        /*tween动画*/
+        var tween = new Konva.Tween({
+           node : animitionRect ,
+            duration : 2 ,
+            rotation : 360 ,
+            easing :Konva.Easings.ElasticEaseInOutIn,
+            onFinish : function () {
+                this.reset();
+                this.play();
+            }
+        });
+        var tween2 = new Konva.Tween({
+            node : star ,
+            duration : 2 ,
+            rotation : 360 ,
+            easing :Konva.Easings.ElasticEaseInOutIn,
+            onFinish : function () {
+                this.reset();
+                this.play();
+            }
+        });
+        tween2.play();
+    }
+</script>
+</body>

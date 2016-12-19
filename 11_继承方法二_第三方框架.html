@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第三方框架实现构造</title>
+    <!--引入三方框架-->
+    <script src="js/simple.js"></script>
+</head>
+<body>
+<script>
+   /*使用第三方框架的好处是 能更加模仿后台类似java语言实现继承的方式（语法结构） 代码更加清晰*/
+    /*框架名称 ：simplejavascriptinheritance.js*/
+
+    var Animal = Class.extend({
+        init : function ( name , age ) {
+            this.age = age;
+            this.name = name;
+        },
+        sound : function () {
+            console.log("动物叫");
+        },
+        swim : function () {
+            console.log("狗刨")
+        },
+        companion : function (obj) {
+            console.log("和"+obj+"是朋友");
+        }
+    });
+
+   var Dog = Animal.extend({
+       init : function ( name , age ,types) {
+           this._super( name , age );
+           this.types = types;
+       },
+       sound : function () {
+           console.log(this.types+"叫");
+       },
+       follow : function () {
+           console.log("摇尾巴");
+       },
+       run : function (obj) {
+           console.log("咬"+obj);
+       }
+   })
+   // 将子类的原型指向new Animal()的地址；
+   // 而这个地址中含有constuctor和__proto__所以能找到所在原型链上的父类
+   var smallDog = new Dog("史努比",3 ,"狗");
+   smallDog.companion("狼");
+   smallDog.swim();
+   smallDog.sound();
+   smallDog.follow();
+   smallDog.run("猫");
+
+   /* 狗刨  狗叫   摇尾巴   咬猫*/
+</script>
+</body>
+</html>

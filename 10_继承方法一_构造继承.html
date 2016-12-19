@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>构造继承</title>
+</head>
+<body>
+
+</body>
+<!--script-->
+<script>
+    function Animal() {
+        this.name = "动物";
+    }
+    Animal.prototype = {
+        sound : function () {
+            console.log("动物叫");
+        }
+    }
+
+    function Dog(name, age) {
+        Animal.apply(this,arguments);// 类似于super 关键字 必须加上
+        this.name = name;
+        this.age = age;
+        var self = this;
+        console.log(this.name + this.age);
+    }
+    // 将子类的原型指向new Animal()的地址；
+    // 而这个地址中含有constuctor和__proto__所以能找到所在原型链上的父类
+    Dog.prototype = new Animal();
+
+    //接下来 自定义子类的属性
+   /* Dog.prototype.sound = function () {
+        console.log("旺旺");  //相当于重写父类中的方法
+    }*/
+    Dog.prototype.follow = function () {
+        console.log("摇尾巴");
+    }
+    var smallDog = new Dog("史努比",3);
+    smallDog.sound();
+    smallDog.follow();
+</script>
+</html>

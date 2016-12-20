@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>框架封装的三种方式</title>
+</head>
+<body>
+<div id="box1"></div>
+<p>我是一个大好人</p>
+<script>
+    /*方式一 函数字面量形式*/
+    var Fangstyle1 = {
+        id:function (id ) {
+            return document.getElementById(id);
+        },
+        tag : function (tag) {
+            return document.getElementsByTagName(tag);
+        }
+    }
+
+    /*方法二  函数原型创建对象方式*/
+
+    var Fangstyle2 = function () {
+
+    }
+    Fangstyle2.prototype = {
+        id:function (id ) {
+            return document.getElementById(id);
+        },
+        tag : function (tag) {
+            return document.getElementsByTagName(tag);
+        }
+    }
+    var text2 = new Fangstyle2();
+    var id2 = text2.id("box1");
+    var tag2 = text2.tag("p")[0];
+    console.log("text2" +tag2.innerHTML);
+
+
+
+
+    /*方法三   Extends 模块化的方式*/
+    var Fangstyle3 = function () {
+
+    }
+    Fangstyle3.prototype = {
+        /*遍历Source的所有属性，并将source（json对象）中的所有属性方法赋值给target*/
+        extend : function (taget , source) {
+            for(var i in source){
+                taget[i] = source[i];
+            }
+            return taget;
+        }
+    }
+    fangStyle3 = new Fangstyle3();
+
+
+    fangStyle3.extend(fangStyle3,{
+        id:function (id ) {
+            return document.getElementById(id);
+        },
+        tag : function (tag) {
+            return document.getElementsByTagName(tag);
+        }
+    });
+
+    fangStyle3.id("box1").innerHTML = "我是第三种方式赋值的";
+
+</script>
+</body>
+</html>

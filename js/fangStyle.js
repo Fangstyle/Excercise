@@ -182,6 +182,37 @@ fangStyle.extend(fangStyle,{
     id:function(id){
         return document.getElementById(id)
     },
+    tag:function (tag) {
+        return document.getElementsByTagName(tag);
+    },
+    tag:function (tag , parentNode) {
+        var slectedRound =[];
+        var targetList = [];
+        if (this.isString(parentNode)){
+            var first= parentNode.charAt(0);
+            switch (first){
+                case ".":
+                    slectedRound = document.getElementsByClassName(parentNode.substring(1));
+                    break;
+                case "#":
+                    slectedRound.push(document.getElementById(parentNode.substring(1)));
+                    break;
+                default :
+                    slectedRound = document.getElementsByTagName(parentNode.substring(1));
+                    break;
+            }
+            for(var i = 0 ; i < slectedRound.length ; i++){
+                var curList = slectedRound[i].getElementsByTagName(tag) ;
+                //for(var j = 0 ; j < curList.length ; i++  ){
+                 //targetList.push(curList[j]);
+                // }
+                Array.prototype.push.apply(targetList,curList);
+                //targetList = targetList.concat(curList);
+            }
+            return targetList;
+        }
+        return document.getElementsByTagName(tag);
+    }
 });
 
 /*常用的工具封装*/

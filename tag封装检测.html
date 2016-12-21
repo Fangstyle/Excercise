@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tag封装检测</title>
+    <script src="js/fangStyle.js"></script>
+</head>
+<body>
+<div class="box">
+    <p>哈哈</p>
+    <p>哈哈</p>
+</div>
+<p> 啦啦</p>
+<script>
+    var tagList = fangStyle.tag("p",".box");
+    console.log(tagList.length);
+    for(var i = 0 ; i < tagList.length ; i ++){
+        tagList[i].style.border = "1px solid red";
+    }
+</script>
+</body>
+</html>

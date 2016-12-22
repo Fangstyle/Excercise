@@ -278,21 +278,47 @@ fangStyle.extend(fangStyle, {
                 result.push(doms[j])
             }
         }
-    }
-    /*    class : function (target) {
-     var targetList = [];
-     var dom = document.getElementsByTagName('*');
-     for(var i=0;i<dom.length;i++){
-     var classNameList = dom[i].className;
-     var splits = classNameList.split(" ");
-     for(var j=0 ;j< splits.length;j++){
-     if (splits[j] == target){
-     targetList.push(dom[i]);
-     }
-     }
-     }
-     return targetList;
-     }*/
+    },// 利用管道思想编程的一个 jquerry $(".fanther .son");
+    fFloor:function (select){
+        var sel = fangStyle.trim(select).split(' ');
+        var result=[];
+        var context=[];
+        for(var i = 0, len = sel.length; i < len; i++){
+            result=[];
+            var item = fangStyle.trim(sel[i]);
+            var first = sel[i].charAt(0)
+            var index = item.indexOf(first)
+            if(first ==='#'){
+                pushArray([fangStyle.id(item.slice(index + 1))]);
+                context = result;
+            }else if(first ==='.'){
+                if(context.length){
+                    for(var j = 0, contextLen = context.length; j < contextLen; j++){
+                        pushArray(fangStyle.class(item.slice(index + 1), context[j]));
+                    }
+                }else{
+                    pushArray(fangStyle.class(item.slice(index + 1)));
+                }
+                context = result;
+            }else{
+                if(context.length){
+                    for(var j = 0, contextLen = context.length; j < contextLen; j++){
+                        pushArray(fangStyle.tag(item, context[j]));
+                    }
+                }else{
+                    pushArray(fangStyle.tag(item));
+                }
+                context = result;
+            }
+        }
+
+        return context;
+        function pushArray(doms){
+            for(var j= 0, domlen = doms.length; j < domlen; j++){
+                result.push(doms[j])
+            }
+        }
+    },
 });
 
 /*常用的工具封装*/

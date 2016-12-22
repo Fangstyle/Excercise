@@ -1,14 +1,14 @@
-
 /**
  * 描述：自定义框架
  */
 
 //定义一个对象 -  （封装的基类）
-var fangStyle = function() {};
+var fangStyle = function () {
+};
 fangStyle.prototype = {
-    extend:function(tar,source) {
+    extend: function (tar, source) {
         //遍历对象
-        for(var i in source){
+        for (var i in source) {
             tar[i] = source[i];
         }
         return tar;
@@ -18,34 +18,33 @@ fangStyle.prototype = {
 fangStyle = new fangStyle();
 
 
-
 /*下面是第三种定义封装的方式 ，使用extend 是封装模块化*/
 /*常用的类型判断封装*/
-fangStyle.extend(fangStyle,{
+fangStyle.extend(fangStyle, {
     //数据类型检测
-    isNumber:function (val){
+    isNumber: function (val) {
         return typeof val === 'number' && isFinite(val)
     },
-    isBoolean:function (val) {
-        return typeof val ==="boolean";
+    isBoolean: function (val) {
+        return typeof val === "boolean";
     },
-    isString:function (val) {
+    isString: function (val) {
         return typeof val === "string";
     },
-    isUndefined:function (val) {
+    isUndefined: function (val) {
         return typeof val === "undefined";
     },
-    isObj:function (str){
-        if(str === null || typeof str === 'undefined'){
+    isObj: function (str) {
+        if (str === null || typeof str === 'undefined') {
             return false;
         }
         return typeof str === 'object';
     },
-    isNull:function (val){
-        return  val === null;
+    isNull: function (val) {
+        return val === null;
     },
-    isArray:function (arr) {
-        if(arr === null || typeof arr === 'undefined'){
+    isArray: function (arr) {
+        if (arr === null || typeof arr === 'undefined') {
             return false;
         }
         return arr.constructor === Array;
@@ -53,97 +52,98 @@ fangStyle.extend(fangStyle,{
 });
 
 /*常用的字符串封装*/
-fangStyle.extend(fangStyle,{
+fangStyle.extend(fangStyle, {
     //去除左边空格
-    ltrim:function(){
-        return str.replace(/(^\s*)/g,'');
+    ltrim: function (str) {
+        return str.replace(/(^\s*)/g, '');
     },
     //去除右边空格
-    rtrim:function(){
-        return str.replace(/(\s*$)/g,'');
+    rtrim: function (str) {
+        return str.replace(/(\s*$)/g, '');
     },
     //去除空格
-    trim:function(){
+    trim: function (str) {
         return str.replace(/(^\s*)|(\s*$)/g, '');
     },
 
     //简单的数据绑定formateString
-    formateString:function(str, data){
-        return str.replace(/@\((\w+)\)/g, function(match, key){
-            return typeof data[key] === "undefined" ? '' : data[key]});
+    formateString: function (str, data) {
+        return str.replace(/@\((\w+)\)/g, function (match, key) {
+            return typeof data[key] === "undefined" ? '' : data[key]
+        });
     },
 });
 
 /*常用的时间封装*/
-fangStyle.extend(fangStyle,{});
+fangStyle.extend(fangStyle, {});
 
 /*常用的事件封装*/
-fangStyle.extend(fangStyle,{
-    on: function (id, type, fn){
-        var dom = fangStyle.isString(id)?document.getElementById(id):id;
+fangStyle.extend(fangStyle, {
+    on: function (id, type, fn) {
+        var dom = fangStyle.isString(id) ? document.getElementById(id) : id;
         //如果支持
         //W3C版本 --火狐 谷歌 等大多数浏览器
         //如果你想检测对象是否支持某个属性，方法，可以通过这种方式
-        if(dom.addEventListener ){
+        if (dom.addEventListener) {
             dom.addEventListener(type, fn, false);
-        }else if(dom.attachEvent){
+        } else if (dom.attachEvent) {
             //如果支持 --IE
             //
             dom.attachEvent('on' + type, fn);
         }
     },
-    un:function(id, type, fn){
-        var dom = fangStyle.isString(id)?document.getElementById(id):id;
-        if(dom.removeEventListener){
+    un: function (id, type, fn) {
+        var dom = fangStyle.isString(id) ? document.getElementById(id) : id;
+        if (dom.removeEventListener) {
             dom.removeEventListener(type, fn);
-        }else if(dom.detachEvent){
+        } else if (dom.detachEvent) {
             dom.detachEvent(type, fn);
         }
     },
     //事件基础
-    getEvent:function(event){
-        return event?event:window.event;
+    getEvent: function (event) {
+        return event ? event : window.event;
     },
     //获取目标
-    GetTarget :function(event){
+    GetTarget: function (event) {
         var e = fangStyle.getEvent(event);
-        return e.target|| e.srcElement;
+        return e.target || e.srcElement;
     },
     //组织默认行为
-    preventDefault:function(event){
+    preventDefault: function (event) {
         var event = fangStyle.getEvent(event);
-        if(event.preventDefault){
+        if (event.preventDefault) {
             event.preventDefault();
-        }else{
+        } else {
             event.returnValue = false;
         }
     },
     //阻止冒泡
-    stopPropagation:function(event){
+    stopPropagation: function (event) {
         var event = fangStyle.getEvent(event);
-        if(event.stopPropagation){
+        if (event.stopPropagation) {
             event.stopPropagation();
-        }else{
+        } else {
             event.cancelBubble = true;
         }
     }
 })
 
 /*常用的Ajax封装*/
-fangStyle.extend(fangStyle,{
+fangStyle.extend(fangStyle, {
     //ajax - 前面我们学习的
-    myAjax:function(URL,fn){
+    myAjax: function (URL, fn) {
         var xhr = createXHR();	//返回了一个对象，这个对象IE6兼容。
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-                if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
                     fn(xhr.responseText);
-                }else{
+                } else {
                     alert("错误的文件！");
                 }
             }
         };
-        xhr.open("get",URL,true);
+        xhr.open("get", URL, true);
         xhr.send();
 
         //闭包形式，因为这个函数只服务于ajax函数，所以放在里面
@@ -178,19 +178,17 @@ fangStyle.extend(fangStyle,{
 });
 
 /*常用的选择器封装*/
-fangStyle.extend(fangStyle,{
-    id:function(id){
+fangStyle.extend(fangStyle, {
+    id: function (id) {
         return document.getElementById(id)
     },
-    tag:function (tag) {
-        return document.getElementsByTagName(tag);
-    },
-    tag:function (tag , parentNode) {
-        var slectedRound =[];
+    tag: function (tag, parentNode) {
+        var slectedRound = [];
         var targetList = [];
-        if (this.isString(parentNode)){
-            var first= parentNode.charAt(0);
-            switch (first){
+        var curList = [];
+        if (this.isString(parentNode)) {
+            var first = parentNode.charAt(0);
+            switch (first) {
                 case ".":
                     slectedRound = document.getElementsByClassName(parentNode.substring(1));
                     break;
@@ -201,39 +199,121 @@ fangStyle.extend(fangStyle,{
                     slectedRound = document.getElementsByTagName(parentNode.substring(1));
                     break;
             }
-            for(var i = 0 ; i < slectedRound.length ; i++){
-                var curList = slectedRound[i].getElementsByTagName(tag) ;
+            for (var i = 0; i < slectedRound.length; i++) {
+                curList = slectedRound[i].getElementsByTagName(tag);
                 //for(var j = 0 ; j < curList.length ; i++  ){
-                 //targetList.push(curList[j]);
+                //targetList.push(curList[j]);
                 // }
-                Array.prototype.push.apply(targetList,curList);
+                Array.prototype.push.apply(targetList, curList);
                 //targetList = targetList.concat(curList);
             }
             return targetList;
         }
         return document.getElementsByTagName(tag);
+    }, /*仅限能支持getElementByClassName浏览器使用*/
+    class: function (target, parentNode) {
+        var slectedRound = [];
+        var targetList = [];
+        var curList = [];
+        if (this.isString(parentNode)) {
+            var first = parentNode.charAt(0);
+            switch (first) {
+                case ".":
+                    slectedRound = document.getElementsByClassName(parentNode.substring(1));
+                    break;
+                case "#":
+                    slectedRound.push(document.getElementById(parentNode.substring(1)));
+                    break;
+                default :
+                    slectedRound = document.getElementsByTagName(parentNode.substring(1));
+                    break;
+            }
+            for (var i = 0; i < slectedRound.length; i++) {
+                if (slectedRound[i].getElementsByClassName) {
+                    curList = slectedRound[i].getElementsByClassName(target);
+                } else { //存在问题 等待以后的调试
+                    var dom = slectedRound[i].getElementsByTagName("*");
+                    if (dom.length > 0) {
+                        for (var j = 0; j < dom.length; j++) {
+                            var classNameList = dom[j].className;
+                            var splits = classNameList.split(" ");
+                            for (var k = 0; k < splits.length; j++) {
+                                if (splits[k] == target) {
+                                    curList.push(dom[j]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Array.prototype.push.apply(targetList, curList);
+            return targetList;
+        }
+        return getElementsByClassName(target);
+    }, //多个查询 group(".box ,#id , p")
+     group:function(content) {
+        var result=[],doms=[];
+        var arr = fangStyle.trim(content).split(',');
+        //alert(arr.length);
+        for(var i=0,len=arr.length;i<len;i++) {
+            var item = fangStyle.trim(arr[i])
+            var first= item.charAt(0)
+            var index = item.indexOf(first)
+            if(first === '.') {
+                doms=fangStyle.class(item.slice(index+1));
+                pushArray(doms,result);
+
+            }else if(first ==='#'){
+                doms=[fangStyle.id(item.slice(index+1))];
+                pushArray(doms,result);
+            }else{
+                doms = fangStyle.tag(item);
+                pushArray(doms,result);
+            }
+        }
+        return result;
+
+        function pushArray(doms,result){
+            for(var j= 0, domlen = doms.length; j < domlen; j++){
+                result.push(doms[j])
+            }
+        }
     }
+    /*    class : function (target) {
+     var targetList = [];
+     var dom = document.getElementsByTagName('*');
+     for(var i=0;i<dom.length;i++){
+     var classNameList = dom[i].className;
+     var splits = classNameList.split(" ");
+     for(var j=0 ;j< splits.length;j++){
+     if (splits[j] == target){
+     targetList.push(dom[i]);
+     }
+     }
+     }
+     return targetList;
+     }*/
 });
 
 /*常用的工具封装*/
-fangStyle.extend(fangStyle,{
+fangStyle.extend(fangStyle, {
     //随机数
     random: function (begin, end) {
         return Math.floor(Math.random() * (end - begin)) + begin;
     },
     //给一个对象扩充功能
-    extendMany:function() {
-        var key,i = 0,len = arguments.length,target = null,copy;
-        if(len === 0){
+    extendMany: function () {
+        var key, i = 0, len = arguments.length, target = null, copy;
+        if (len === 0) {
             return;
-        }else if(len === 1){
+        } else if (len === 1) {
             target = this;
-        }else{
+        } else {
             i++;
             target = arguments[0];
         }
-        for(; i < len; i++){
-            for(key in arguments[i]){
+        for (; i < len; i++) {
+            for (key in arguments[i]) {
                 copy = arguments[i][key];
                 target[key] = copy;
             }

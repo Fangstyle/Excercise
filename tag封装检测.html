@@ -9,13 +9,25 @@
 <div class="box">
     <p>哈哈</p>
     <p>哈哈</p>
+    <p class="box2">哈哈</p>
 </div>
-<p> 啦啦</p>
+<div id="box1">
+    <p> 啦啦</p>
+    <span>啦啦</span>
+</div>
 <script>
-    var tagList = fangStyle.tag("p",".box");
+    var tagList = fangStyle.tag("p", "#box1");
     console.log(tagList.length);
-    for(var i = 0 ; i < tagList.length ; i ++){
+    for (var i = 0; i < tagList.length; i++) {
         tagList[i].style.border = "1px solid red";
+    }
+    var classList2 = fangStyle.class("box2", ".box");
+    for (var j = 0; j < classList2.length; j++) {
+        classList2[j].style.border = "1px solid blue";
+    }
+    var gropuList = fangStyle.group("#box1 , span");
+    for (var k = 0; k < gropuList.length; k++) {
+        gropuList[k].style.border = "1px solid green";
     }
 </script>
 </body>

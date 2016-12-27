@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>框架测试</title>
+</head>
+<style>
+    .class1{
+        background-color: pink;
+    }
+    .box1{
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<script src="js/fangStyle.js"></script>
+<body>
+<div class="box1">
+
+</div>
+<script>
+    //fangStyle.$all(".box1")[0].style.backgroundColor = "#f60";
+    fangStyle.addClass(".box1","class1");
+    //fangStyle.css(".box1","height","200px");
+    var str  = fangStyle.css(".box1","height");
+    //fangStyle.removeClass(".box1","box1");
+    var hasClass  = fangStyle.hasClass(".box1","class1");
+    console.log(hasClass);
+    console.log(str);
+</script>
+</body>
+</html>

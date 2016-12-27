@@ -251,61 +251,61 @@ fangStyle.extend(fangStyle, {
         }
         return getElementsByClassName(target);
     }, //多个查询 group(".box ,#id , p")
-     group:function(content) {
-        var result=[],doms=[];
+    group: function (content) {
+        var result = [], doms = [];
         var arr = fangStyle.trim(content).split(',');
         //alert(arr.length);
-        for(var i=0,len=arr.length;i<len;i++) {
+        for (var i = 0, len = arr.length; i < len; i++) {
             var item = fangStyle.trim(arr[i])
-            var first= item.charAt(0)
+            var first = item.charAt(0)
             var index = item.indexOf(first)
-            if(first === '.') {
-                doms=fangStyle.class(item.slice(index+1));
-                pushArray(doms,result);
+            if (first === '.') {
+                doms = fangStyle.class(item.slice(index + 1));
+                pushArray(doms, result);
 
-            }else if(first ==='#'){
-                doms=[fangStyle.id(item.slice(index+1))];
-                pushArray(doms,result);
-            }else{
+            } else if (first === '#') {
+                doms = [fangStyle.id(item.slice(index + 1))];
+                pushArray(doms, result);
+            } else {
                 doms = fangStyle.tag(item);
-                pushArray(doms,result);
+                pushArray(doms, result);
             }
         }
         return result;
 
-        function pushArray(doms,result){
-            for(var j= 0, domlen = doms.length; j < domlen; j++){
+        function pushArray(doms, result) {
+            for (var j = 0, domlen = doms.length; j < domlen; j++) {
                 result.push(doms[j])
             }
         }
     },// 利用管道思想编程的一个 jquerry $(".fanther .son");
-    fFloor:function (select){
+    fFloor: function (select) {
         var sel = fangStyle.trim(select).split(' ');
-        var result=[];
-        var context=[];
-        for(var i = 0, len = sel.length; i < len; i++){
-            result=[];
+        var result = [];
+        var context = [];
+        for (var i = 0, len = sel.length; i < len; i++) {
+            result = [];
             var item = fangStyle.trim(sel[i]);
             var first = sel[i].charAt(0)
             var index = item.indexOf(first)
-            if(first ==='#'){
+            if (first === '#') {
                 pushArray([fangStyle.id(item.slice(index + 1))]);
                 context = result;
-            }else if(first ==='.'){
-                if(context.length){
-                    for(var j = 0, contextLen = context.length; j < contextLen; j++){
+            } else if (first === '.') {
+                if (context.length) {
+                    for (var j = 0, contextLen = context.length; j < contextLen; j++) {
                         pushArray(fangStyle.class(item.slice(index + 1), context[j]));
                     }
-                }else{
+                } else {
                     pushArray(fangStyle.class(item.slice(index + 1)));
                 }
                 context = result;
-            }else{
-                if(context.length){
-                    for(var j = 0, contextLen = context.length; j < contextLen; j++){
+            } else {
+                if (context.length) {
+                    for (var j = 0, contextLen = context.length; j < contextLen; j++) {
                         pushArray(fangStyle.tag(item, context[j]));
                     }
-                }else{
+                } else {
                     pushArray(fangStyle.tag(item));
                 }
                 context = result;
@@ -313,12 +313,17 @@ fangStyle.extend(fangStyle, {
         }
 
         return context;
-        function pushArray(doms){
-            for(var j= 0, domlen = doms.length; j < domlen; j++){
+        function pushArray(doms) {
+            for (var j = 0, domlen = doms.length; j < domlen; j++) {
                 result.push(doms[j])
             }
         }
+    }, //html5实现的选择器
+    $all: function (selector, context) {
+        context = context || document;
+        return context.querySelectorAll(selector);
     },
+
 });
 
 /*常用的工具封装*/
@@ -346,4 +351,90 @@ fangStyle.extend(fangStyle, {
         }
         return target;
     },
+});
+
+/*dom常用封装*/
+fangStyle.extend(fangStyle, {
+    setStyle: function (dom, key, value) {
+        dom.style[key] = value;
+    },
+    getStyle: function (dom, key) {
+        if (dom.currentStyle) {
+            return dom.currentStyle[key];
+        } else {
+            var str = getComputedStyle(dom, null)[key];
+            return str;
+        }
+    },
+    css: function (target, key, value) {
+        var dom = fangStyle.isString(target) ? fangStyle.$all(target) : target;
+        if (dom.length) {
+            for (var i = 0; i < dom.length; i++) {
+                if (value) {
+                    fangStyle.setStyle(dom[i], key, value);
+                } else {
+                    return fangStyle.getStyle(dom[i], key); //存在问题  就是只能返回一个数据 而不是一个数组
+                }
+            }
+        } else {
+            if (value) {
+                fangStyle.setStyle(dom, key, value);
+            } else {
+                return fangStyle.getStyle(dom, key);
+            }
+        }
+    },
+    addClass: function (target, classNames) {
+        if(this.isString(target)){
+            var doms = fangStyle.$all(target);
+        }
+        //如果获取的是集合
+        if (doms.length) {
+            for (var i = 0, len = doms.length; i < len; i++) {
+                addName(doms[i]);
+            }
+            //如果获取的不是集合
+        } else {
+            addName(doms);
+        }
+        function addName(dom) {
+            dom.className = dom.className + ' ' + classNames;
+        }
+    },
+    removeClass: function (target ,classNames) {
+        if(this.isString(target)){
+            var dom = fangStyle.$all(target);
+        }
+        if(dom.length){
+            for (var i = 0, len = dom.length; i < len; i++) {
+                removes(dom[i] ,classNames);
+            }
+            //如果获取的不是集合
+        } else {
+            removes(dom ,classNames);
+        }
+        function removes(dom , className) {
+            dom.className = dom.className.replace(" "+className,"");
+            dom.className = dom.className.replace(className+" ","");
+        }
+    },
+    hasClass:function(target,className){
+        if(this.isString(target)){
+            var doms = fangStyle.$all(target);
+        }
+        var flag = true;
+        if(doms.length){
+            for(var i= 0,len=doms.length;i<len;i++){
+                flag = flag && check(doms[i],className)
+            }
+        }else{
+            flag = flag && check(target,className);
+        }
+        return flag;
+        //判定单个元素
+        function check(target,name){
+            return -1<(" "+target.className+" ").indexOf(" "+name+" ")
+        }
+    },
+
 });

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高仿jQuery</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: #f60;
+        }
+        #btn_hide{
+            width: 100px;
+            height: 30px;
+        }
+    </style>
+    <script src="js/fQuery.js"></script>
+</head>
+<body>
+<button id="btn_hide">隐藏</button>
+<div class="box">
+</div>
+<script>
+    window.onload= function () {
+        var btn = document.getElementById("btn_hide");
+        btn.onclick = function () {
+            fQuery(".box").hide();
+        }
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>变量污染的解决方式</title>
+    <style>
+        #box1{
+            height: 10px;
+            width: 100px;
+        }
+    </style>
+    <script>
+        /*方法一  函数方式*/
+        function fangstyle1( id ){
+            var id = this._id( id );
+            return id;
+        }
+        fangstyle1.prototype={
+            _id:function ( id ) {
+                return document.getElementById(id);
+            }
+        }
+        var $ = function( id ){
+            return new fangstyle1( id );
+        }
+    </script>
+
+    <script>
+        /*方法二 作用域方式  京东为例*/
+        var jingDong = {version:"1.0"}; //创建总库
+        jingDong.common ={
+            id : function (id) {
+                return document.getElementById(id);
+            },
+            tag : function (tagName) {
+                return document.getElementsByTagName(tagName);
+            }
+        };
+        /*同样是操纵ui的类，但是用域的思想分为 手机端和电脑端*/
+        jingDong.ui = {};//这个就是域
+        jingDong.ui.mobile = {
+            ui1:function () {
+                console.log("移动端ui1")
+            },
+            ui2:function () {
+                console.log("移动端ui2")
+            }
+        };
+        jingDong.ui.computer = {
+            ui1:function () {
+                console.log("电脑ui1")
+            },
+            ui2:function () {
+                console.log("电脑ui2")
+            }
+        };
+    </script>
+
+    <script>
+        /*方式三 将私有的属性弄成window的一个属性 即可访问*/
+        (function () {
+            var name = "william";
+            var age = "20";
+            function getName() {
+                return "name is "+name;
+            }
+            function getAge(){
+                return "Age is "+age;
+            }
+            var list = {
+                names:name,
+                ages:age,
+            }
+            window.hehe = list;
+        })(); //立即执行函数
+
+        /*方式四 与三比较类似 将私有的属性弄成一个对象的一个属性 即可访问*/
+        var obj = new Object();
+        (function () {
+            var name = "william";
+            var age = "20";
+            function getName() {
+                return "name is "+name;
+            }
+            function getAge(){
+                return "Age is "+age;
+            }
+            var list = {
+                names:name,
+                ages:age,
+            }
+            obj.hehe = list;
+        })(obj); //立即执行函数
+    </script>
+</head>
+<body>
+<div id="box1">
+</div>
+</body>
+<script>
+    /*函数框架封装*/
+    $("box1").style.backgroundColor = "red";
+    /*方法二 命名空间方式*/
+    console.log(jingDong.version);
+    console.log(jingDong.ui.ui2); //错误的
+    console.log(jingDong.ui.mobile.ui1()); //移动端ui1
+    console.log(jingDong.ui.computer.ui1()); //电脑ui1
+
+    /*方式三*/
+    console.log("方法三1" + name);
+    console.log("方法三2" + hehe.names); //将函数中私有想要共有的变量变为window的一个属性
+    console.log("方法三3" + obj.hehe.names); //将函数中私有想要共有的变量变为对象的一个属性 ，唯一的区别是window可省略，而对象.不能省略
+</script>
+
+</html>

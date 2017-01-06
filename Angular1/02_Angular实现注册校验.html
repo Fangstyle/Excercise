@@ -12,20 +12,57 @@
     <script src="node_modules/angular/angular.js"></script>
 </head>
 <body>
-<table ng-app="Design">
+<table ng-app="Design" ng-controller="controller">
     <tr>
         <td>UserName:</td>
-        <td><input type="text"></td>
+        <td><input type="text" ng-model="user.name"></td>
     </tr>
     <tr>
         <td>PassWord:</td>
-        <td><input type="text"></td>
+        <td><input type="text" ng-model="user.password"></td>
     </tr>
     <tr>
-        <td></td>
+        <td>{{NotityMessage}}</td>
+        <td><input type="button" ng-click="login()" value="登陆"></td>
     </tr>
 </table>
 <script>
+    // 创建一个模块
+    var app = angular.module("Design",[]);
+    // 为这个模块创建一个控制器
+    app.controller('controller',['$scope',function ($scope) {
+        $scope.user = {
+            name: '',
+            password: ''
+        };
+        $scope.NotityMessage = '请输入用户名';
+        $scope.login = function () {
+            alert("登录中,请稍后..");
+        }
+        $scope.$watch('user.name',function (now , old ) {
+            if (now){
+                if(now.length<5){
+                    $scope.NotityMessage = '请输入5-10位有效用户名';
+                }else{
+                    $scope.NotityMessage = '正确';
+                }
+            }else{
+                $scope.NotityMessage = '请输入用户名';
+            }
+        });
+
+        $scope.$watch('user.password',function (now , old ) {
+            if (now){
+                if(now.length<5){
+                    $scope.NotityMessage = '请输入5-10位有效密码';
+                }else{
+                    $scope.NotityMessage = '正确';
+                }
+            }else{
+                $scope.NotityMessage = '请输入密码';
+            }
+        });
+    }]);
 </script>
 </body>
 </html>

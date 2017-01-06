@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular初识</title>
+    <script src="node_modules/angular/angular.js"></script>
+    <script>
+        /*啥是Angular.js   Angular.js是谷歌公司的一款类似于jQuery框架的一款产品
+        * 最大的特点是： MVC 数据双向绑定（几乎没有Dom操作）模块化 指令系统
+        * 相关链接：- http://www.apjs.net/
+         - http://www.angularjs.cn/
+         - http://docs.angularjs.cn/api
+         - https://material.angularjs.org
+         - http://angular-ui.github.io/
+        *
+        * */
+    </script>
+</head>
+<body>
+ <div class="container" ng-app=""> <!--ng-app所在的域 是Angular所管理的区域，这里就管理了一个div-->
+     <input type="text" value="" ng-model="obj.name"> <!--ng-modle 是一个 指令把输入域的值绑定到应用程序变量 name。-->
+     <h1>Hello {{obj.name}}</h1><!--ng-bind 指令把应用程序变量 name 绑定到某个段落的 innerHTML。-->
+ </div>
+</body>
+</html>

@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Angular基本指令</title>
+    <style>
+        .gray{
+            background-color: #c0c0c0;
+        }
+        .normal{
+            background-color: #fff;
+        }
+        .selected{
+            background-color: blue;
+        }
+    </style>
     <script src="node_modules/angular/angular.js"></script>
 </head>
 <body>
 <div ng-app="demo1">
-    <ul ng-controller="repeatControllers">
-        <li ng-repeat="item in dataList">
+    <ul ng-controller="Controllers">
+        <li ng-repeat="item in dataList track by $id($index)" ng-class="{nomal:$even,gray:$odd,selected:item.name.startsWith('张')}">
             <span>{{item.name}}</span>
             <span>{{item.age}}</span>
         </li>
@@ -16,7 +27,7 @@
 </div>
 <script>
     var app = angular.module('demo1',[]);
-    app.controller('repeatControllers',['$scope',function ($scope) {
+    app.controller('Controllers',['$scope',function ($scope) {
        $scope.dataList = [];
         $scope.nameList = ['张',"李","王","魏"];
         for (var i = 0 ;i < 10 ; i++){

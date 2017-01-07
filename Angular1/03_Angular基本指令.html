@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular基本指令</title>
+    <script src="node_modules/angular/angular.js"></script>
+</head>
+<body>
+<div ng-app="demo1">
+    <ul ng-controller="repeatControllers">
+        <li ng-repeat="item in dataList">
+            <span>{{item.name}}</span>
+            <span>{{item.age}}</span>
+        </li>
+    </ul>
+</div>
+<script>
+    var app = angular.module('demo1',[]);
+    app.controller('repeatControllers',['$scope',function ($scope) {
+       $scope.dataList = [];
+        $scope.nameList = ['张',"李","王","魏"];
+        for (var i = 0 ;i < 10 ; i++){
+            $scope.dataList[$scope.dataList.length] = {
+                name:$scope.nameList[i%3]+i,
+                age:20+i,
+            }
+        }
+    }]);
+</script>
+</body>
+</html>

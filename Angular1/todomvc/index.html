@@ -20,13 +20,15 @@
 		<input class="toggle-all" type="checkbox">
 		<label for="toggle-all">Mark all as complete</label>
 		<ul class="todo-list">
-			<li ng-repeat="item in list" ng-class="{completed:item.completed}">
-				<div class="view">
-					<input class="toggle" type="checkbox"  >
+			<li ng-repeat="item in list" ng-class="{completed:item.completed ,editing:item.id===editId} " ng-dblclick="toEdit(item.id)">
+				<div class="view" >
+					<input class="toggle" type="checkbox">
 					<label>{{item.text}}</label>
 					<button class="destroy" ng-click="removeItem(item.id)"></button>
 				</div>
-				<input class="edit">
+				<form ng-submit="save(item.id)">
+				<input class="edit" ng-model="item.text">
+				</form>
 			</li>
 		</ul>
 	</section>

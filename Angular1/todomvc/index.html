@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
 	<!-- CSS overrides - remove if you don't need it -->
 	<link rel="stylesheet" href="css/app.css">
+	<script src="js/angular.js"></script>
 </head>
 <body ng-app="MyTodoMvc">
 <section class="todoapp" ng-controller="MainController">
@@ -20,7 +21,7 @@
 		<input class="toggle-all" type="checkbox">
 		<label for="toggle-all">Mark all as complete</label>
 		<ul class="todo-list">
-			<li ng-repeat="item in list" ng-class="{completed:item.completed ,editing:item.id===editId} " ng-dblclick="toEdit(item.id)">
+			<li ng-repeat="item in list | filter : listConditionSelector" ng-class="{completed:item.completed ,editing:item.id===editId} " ng-dblclick="toEdit(item.id)">
 				<div class="view" >
 					<input class="toggle" type="checkbox" ng-click="tagleCompelted(item.id)" ng-checked="item.completed">
 					<label>{{item.text}}</label>
@@ -39,22 +40,20 @@
 		<!-- Remove this if you don't implement routing -->
 		<ul class="filters">
 			<li>
-				<a class="selected" href="#/ ">All</a>
+				<a ng-class="{selected:listConditionSelector.completed == undefined}" href="#/">All</a>
 			</li>
 			<li>
-				<a href="#/active">Active</a>
+				<a ng-class="{selected:listConditionSelector.completed == false}" href="#/active">Active</a>
 			</li>
 			<li>
-				<a href="#/completed">Completed</a>
+				<a ng-class="{selected:listConditionSelector.completed == true}" href="#/completed">Completed</a>
 			</li>
 		</ul>
 		<!-- Hidden if no completed items are left ↓ -->
 		<button class="clear-completed" ng-click="clearCompelted()">Clear completed</button>
 	</footer>
 </section>
-
 <!-- Scripts here. Don't remove ↓ -->
-<script src="../node_modules/angular/angular.js"></script>
 <script src="./js/fang.js"></script>
 </body>
 </html>

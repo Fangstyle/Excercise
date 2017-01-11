@@ -18,7 +18,7 @@
 		}, {
 			id: 3,
 			text: '打豆豆',
-			completed: false,
+			completed: true,
 			isEdit:false,
 		},];
 		$scope.add = function () {
@@ -63,6 +63,17 @@
 			$scope.editId  = -1;
 			var index = $scope.targetIndex(id);
 			//$scope.list[index].text ="111";
+		}
+		$scope.tagleCompelted = function (target) {
+			var index = $scope.targetIndex(target);
+			$scope.list[index].completed = !$scope.list[index].completed;
+		}
+		$scope.clearCompelted = function () {
+			for (var i = 0 ;i<$scope.list.length;i++){
+				if($scope.list[i].completed){
+					$scope.list.splice(i,1);
+				}
+			}
 		}
 	}]);
 })(angular);

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Template • TodoMVC</title>
+	<title>Template ? TodoMVC</title>
 	<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
 	<!-- CSS overrides - remove if you don't need it -->
 	<link rel="stylesheet" href="css/app.css">
@@ -22,12 +22,12 @@
 		<ul class="todo-list">
 			<li ng-repeat="item in list" ng-class="{completed:item.completed ,editing:item.id===editId} " ng-dblclick="toEdit(item.id)">
 				<div class="view" >
-					<input class="toggle" type="checkbox">
+					<input class="toggle" type="checkbox" ng-click="tagleCompelted(item.id)" ng-checked="item.completed">
 					<label>{{item.text}}</label>
 					<button class="destroy" ng-click="removeItem(item.id)"></button>
 				</div>
 				<form ng-submit="save(item.id)">
-				<input class="edit" ng-model="item.text">
+					<input class="edit" ng-model="item.text">
 				</form>
 			</li>
 		</ul>
@@ -35,11 +35,11 @@
 	<!-- This footer should hidden by default and shown when there are todos -->
 	<footer class="footer">
 		<!-- This should be `0 items left` by default -->
-		<span class="todo-count"><strong>{}</strong> item left</span>
+		<span class="todo-count"><strong>{working}</strong> item left</span>
 		<!-- Remove this if you don't implement routing -->
 		<ul class="filters">
 			<li>
-				<a class="selected" href="#/">All</a>
+				<a class="selected" href="#/ ">All</a>
 			</li>
 			<li>
 				<a href="#/active">Active</a>
@@ -49,7 +49,7 @@
 			</li>
 		</ul>
 		<!-- Hidden if no completed items are left ↓ -->
-		<button class="clear-completed">Clear completed</button>
+		<button class="clear-completed" ng-click="clearCompelted()">Clear completed</button>
 	</footer>
 </section>
 

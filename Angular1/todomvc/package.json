@@ -3,5 +3,8 @@
   "dependencies": {
     "angular": "^1.4.9",
     "todomvc-app-css": "^2.0.0"
+  },
+  "devDependencies": {
+    "angular-route": "^1.6.1"
   }
 }

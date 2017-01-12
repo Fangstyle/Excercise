@@ -9,9 +9,12 @@
 	<link rel="stylesheet" href="css/app.css">
 	<!--<script src="../node_modules/angular/angular.min.js"></script>-->
 	<script src="js/angular.js"></script>
+	<script src="node_modules/angular-route1/angular-route.js"></script>
 </head>
 <body ng-app="MyTodoMvc">
-<section class="todoapp" ng-controller="MainController">
+<ng-view></ng-view>
+<script id="main_tmpl" type="text/ng-template">
+<section class="todoapp" >
 	<header class="header">
 		<h1>todos</h1>
 		<form ng-submit="add()">
@@ -54,7 +57,8 @@
 		<button class="clear-completed" ng-click="clearCompelted()">Clear completed</button>
 	</footer>
 </section>
+</script>
 <!-- Scripts here. Don't remove ↓ -->
-<script src="./js/fang.js"></script>
+<script src="./js/fang_01.js"></script>
 </body>
 </html>

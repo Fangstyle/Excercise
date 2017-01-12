@@ -6,7 +6,7 @@
 	var app = angular.module("MyTodoMvc", ['ngRoute']);
 	app.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider
-			.when('/:status', {
+			.when('/:status?', {
 				controller: "MainController",
 				templateUrl: "main_tmpl",
 			})

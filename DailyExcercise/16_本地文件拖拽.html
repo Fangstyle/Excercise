@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 1200px;
+            height: 400px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="container"></div>
+<script>
+    window.onload = function () {
+        taggleDestination = document.getElementsByClassName('container')[0];
+        taggleDestination.ondragover = allowDrop;
+        taggleDestination.ondrop = drop;
+        /*阻止浏览器默认行为*/
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        /*物体结束后  容器添加移动物体*/
+        function drop(ev) {
+            console.log( ev.dataTransfer.files);
+            ev.preventDefault();
+            var f = ev.dataTransfer.files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+                console.log(fileReader);
+                var str = '<img scr="'+fileReader.result+'\"\/>';
+                taggleDestination.innerHTML=str;
+                console.log(fileReader);
+            }
+            fileReader.readAsDataURL(f);
+        }
+    }
+    function showObj(obj) {
+        for (var itemkey in obj) {
+                console.log(itemkey + " : " + obj[itemkey]);
+        }
+    }
+</script>
+</body>
+</html>

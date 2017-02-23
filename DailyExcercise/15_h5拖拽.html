@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 1200px;
+            height:400px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="container"></div>
+<img src="images/a.jpg" id="taggleTarget">
+<script>
+    window.onload = function () {
+        taggleObj = document.getElementById('taggleTarget');
+        taggleDestination = document.getElementsByClassName('container')[0];
+
+
+        taggleDestination.ondragover = allowDrop;
+        taggleObj.ondragstart = drag;
+        taggleDestination.ondrop =drop;
+
+        /*阻止浏览器默认行为*/
+        function allowDrop(ev)
+        {
+            ev.preventDefault();
+        }
+        /*物体移动前记录信息*/
+        function drag(ev)
+        {
+            ev.dataTransfer.setData("Text",ev.target.id);
+        }
+        /*物体结束后  容器添加移动物体*/
+        function drop(ev)
+        {
+            ev.preventDefault();
+            var data=ev.dataTransfer.getData("Text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    };
+</script>
+</body>
+</html>

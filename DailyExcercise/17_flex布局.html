@@ -6,16 +6,24 @@
     <style>
         .container{
             display:flex;
-            flex-direction: column;
+            flex-direction: wrap;
             flex-wrap: nowrap;
             justify-content: center;
             align-items: center;
             background-color: #cccccc;
+            height: 200px;
         }
         .items{
-            width: 100px;
-            height: 50px;
+            /*flex-grow: 1;  //weight效果  所有都占有1分*/
+            flex-shrink: 1;
             background-color: #389CFF;
+            text-align: center;
+            width: 100px;
+            height: 80px;;
+        }
+        .items:nth-child(3){
+            flex-shrink: 0; /*flex-shrink: 0 无论容器变得多小都不改变*/
+            align-self: flex-end; /*可以改变*/
         }
         .container .items:nth-child(2n+1){
             background-color: #ff6600;
@@ -24,10 +32,11 @@
 </head>
 <body>
 <div class="container">
-    <div class="items"></div>
-    <div class="items"></div>
-    <div class="items"></div>
-    <div class="items"></div>
+    <div style="order: 5" class="items">5</div>
+    <div style="order: 4" class="items">4</div>
+    <div style="order: 3" class="items">3</div>
+    <div style="order: 2" class="items">2</div>
+    <div style="order: 1" class="items">1</div>
 </div>
 </body>
 </html>
